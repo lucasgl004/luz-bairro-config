@@ -7,14 +7,23 @@ namespace: cicd-prod-aluno13
 resources:
   - ../../base
 
+# Extensao do Exercicio 10: canary com pesos na Route (90% estavel / 10% candidata).
+components:
+  - ../../components/canary
+
 # Producao NAO e construida: usa a MESMA imagem de dev, identificada pelo digest.
 # O digest (e APP_VERSION) so mudam por pull request de promocao (config/scripts/promover.sh).
 # TODO(aluno): em newName, troque cicd-dev pelo seu projeto de DESENVOLVIMENTO ($DEV_NS),
 # porque e la que o pipeline publica a imagem.
 images:
+  # Versao ESTAVEL (91b7a7a)
   - name: luz-bairro
     newName: image-registry.openshift-image-registry.svc:5000/cicd-dev-aluno13/luz-bairro
     digest: sha256:37c7c0bec153e8f07e73c33bd76c83a9e1a39fa9d4a2def517de1874957476c4
+  # Versao CANDIDATA (df642b5), usada so pelo Deployment luz-bairro-canary
+  - name: luz-bairro-canary
+    newName: image-registry.openshift-image-registry.svc:5000/cicd-dev-aluno13/luz-bairro
+    digest: sha256:2006623df8128fca3a5fe298f131c10e14e874ca5ff9000a369e98472436404a
 
 configMapGenerator:
   - name: luz-bairro-config

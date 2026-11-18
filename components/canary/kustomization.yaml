@@ -19,11 +19,11 @@ patches:
       - op: replace
         path: /spec/to/weight
         # TODO(aluno): peso da versao estavel = 100 - peso do canary
-        value: 100
+        value: 90
       - op: add
         path: /spec/alternateBackends
         value:
           - kind: Service
             name: luz-bairro-canary
             # TODO(aluno): comece com 10 (10% do trafego)
-            weight: 0
+            weight: 10
